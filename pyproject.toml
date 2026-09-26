@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wiz-central-toolkit"
+version = "0.1.0"
+description = "Wizard Central Toolkit — focused, reliable command-line tools for developers"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "rewardsbycode-eng" }]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-cov>=4.0"]
+
+[project.scripts]
+pythonwiz = "wiz_central_toolkit.pythonwiz.__main__:main"
+diffwiz = "wiz_central_toolkit.diffwiz.__main__:main"
+jsonwiz = "wiz_central_toolkit.jsonwiz.__main__:main"
+debugwiz = "wiz_central_toolkit.debugwiz.__main__:main"
+readwiz = "wiz_central_toolkit.readwiz.__main__:main"
+writewiz = "wiz_central_toolkit.writewiz.__main__:main"
+gitwiz = "wiz_central_toolkit.gitwiz.__main__:main"
+codeguardwiz = "wiz_central_toolkit.codeguardwiz.__main__:main"
+rustwiz = "wiz_central_toolkit.rustwiz.__main__:main"
+todowiz = "wiz_central_toolkit.todowiz.__main__:main"
+bannerwiz = "wiz_central_toolkit.bannerwiz.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/rewardsbycode-eng/wiz-central-toolkit"
+Repository = "https://github.com/rewardsbycode-eng/wiz-central-toolkit"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
