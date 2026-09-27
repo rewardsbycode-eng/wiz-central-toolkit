@@ -43,6 +43,9 @@ def run_tool(tool_name: str, args: list[str]) -> None:
         result = tool_main(args)
         if isinstance(result, int) and result != 0:
             print(f"{tool_name} exited with status {result}")
+    except SystemExit as exc:
+        if exc.code not in (None, 0):
+            print(f"{tool_name} exited with status {exc.code}")
     except Exception as exc:
         print(f"{tool_name}: {exc}", file=sys.stderr)
 
