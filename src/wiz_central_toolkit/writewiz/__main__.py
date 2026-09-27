@@ -1,5 +1,5 @@
-def main() -> None:
+def main(argv=None) -> int:
     print("writewiz: not yet ported — placeholder")
-    raise SystemExit(0)
+    return 0
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

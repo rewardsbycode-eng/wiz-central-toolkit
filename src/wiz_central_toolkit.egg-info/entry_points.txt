@@ -1,0 +1,3 @@
+[console_scripts]
+godfatherwiz = wiz_central_toolkit.godfatherwiz.__main__:main
+wiz = wiz_central_toolkit.wiz.__main__:main
