@@ -28,9 +28,10 @@ Typical usage looks like this:
 
 ```bash
 wiz <tool> [arguments]
+```
 
 
-Wiz Central Toolkit is a command-line collection of deterministic developer utilities. The main command is `wiz`, which dispatches to individual tools. `godfatherwiz` provides an interactive router for all registered tools and optional AI access through Ollama or an OpenAI-compatible API.
+The main command is `wiz`, which dispatches to individual tools. `godfatherwiz` provides an interactive router for all registered tools and optional AI access through Ollama or an OpenAI-compatible API.
 
 ## Requirements
 
