@@ -1,0 +1,115 @@
+## Universal Python Project — Handy Commands
+
+## 🛠️ Code Validation
+| Goal | Command |
+|------|---------|
+| Syntax check | `python3 -c "import py_compile; py_compile.compile('main.py', doraise=True)" && echo "CLEAN"` |
+| Import check | `python3 -c "import main"` |
+| Run with verbose | `python3 -vv main.py` |
+| Check unused imports | `python3 -m pyflakes main.py` |
+
+## 🧪 Testing
+| Goal | Command |
+|------|---------|
+| Run pytest | `pytest -v` |
+| Run with coverage | `pytest --cov=. --cov-report=term-missing` |
+| Single test file | `pytest tests/test_xxx.py -v` |
+| Show locals on failure | `pytest -l` |
+| Match pattern | `pytest -k "test_name"` |
+
+## 📦 Dependencies
+| Goal | Command |
+|------|---------|
+| Show all packages | `pip list` |
+| Freeze requirements | `pip freeze > requirements.txt` |
+| Install from requirements | `pip install -r requirements.txt` |
+| Upgrade pip | `python -m pip install --upgrade pip` |
+| Check outdated | `pip list --outdated` |
+| Package details | `pip show package-name` |
+| Find package location | `python -c "import pkg; print(pkg.__file__)"` |
+
+## 🔍 Debugging
+| Goal | Command |
+|------|---------|
+| Print variable | `python3 -c "import main; print(main.var)"` |
+| Inspect object | `python3 -c "import main; help(main.Class)"` |
+| Run interactively | `python3 -i main.py` |
+| One-liner eval | `python3 -c "print(__import__('json').loads('{\"a\":1}'))"` |
+| Trace execution | `python3 -m trace --trace main.py` |
+| Profile performance | `python3 -m cProfile main.py` |
+
+## 🗂️ File Operations
+| Goal | Command |
+|------|---------|
+| Find .py files | `find . -name "*.py" -type f` |
+| Count lines | `wc -l *.py` |
+| Search in files | `grep -rn "pattern" --include="*.py"` |
+| Check file size | `ls -lh *.py` |
+| Last 20 lines | `tail -20 main.py` |
+| Specific lines | `sed -n '100,120p' main.py` |
+
+## 🌿 Git Operations
+| Goal | Command |
+|------|---------|
+| Status | `git status` |
+| Stage all | `git add -A` |
+| Commit | `git commit -m "feat: description"` |
+| Push | `git push origin main` |
+| Pull | `git pull origin main` |
+| Recent commits | `git log --oneline -10` |
+| Diff changes | `git diff HEAD` |
+| Revert last | `git reset --soft HEAD~1` |
+| File history | `git log --follow filename.py` |
+
+## 🐞 Environment
+| Goal | Command |
+|------|---------|
+| Python version | `python3 --version` |
+| Venv path | `which python` |
+| Activate venv | `source .venv/bin/activate` |
+| Deactivate | `deactivate` |
+| Python path | `python3 -c "import sys; print('\n'.join(sys.path))"` |
+| Env vars | `env | grep PYTHON` |
+
+## 📊 Performance
+| Goal | Command |
+|------|---------|
+| Time execution | `time python3 main.py` |
+| Memory profile | `python3 -m memory_profiler main.py` |
+| CPU profile | `python3 -m cProfile -o profile.out main.py` |
+| Analyze profile | `python3 -m pstats profile.out` |
+
+## 🧹 Cleanup
+| Goal | Command |
+|------|---------|
+| Remove pycache | `find . -type d -name __pycache__ -exec rm -rf {} +` |
+| Remove .pyc | `find . -name "*.pyc" -delete` |
+| Build artifacts | `rm -rf dist/ build/ *.egg-info/` |
+| Clear pytest cache | `rm -rf .pytest_cache/` |
+| Coverage data | `rm -rf htmlcov/ .coverage` |
+
+## 🚨 Error Diagnosis
+| Symptom | Command |
+|---------|---------|
+| Module not found | `python3 -c "import sys; print('\n'.join(sys.path))"` |
+| Circular import | `python3 -X importtime -c "import main" 2>&1` |
+| Deprecation warnings | `python3 -Wd main.py` |
+| Full traceback | `python3 -u main.py` |
+| Enable warnings | `python3 -Wall main.py` |
+
+## 🔐 Security Scan
+| Goal | Command |
+|------|---------|
+| Vulnerabilities | `pip-audit` |
+| Static analysis | `python3 -m bandit -r .` |
+| Code style | `python3 -m flake8 --max-line-length=120` |
+
+## ⏱️ Benchmarks
+| Goal | Command |
+|------|---------|
+| Time snippet | `python3 -m timeit "1+1"` |
+| Loop benchmark | `python3 -m timeit "[i for i in range(1000)]"` |
+
+---
+**Save:** `cp universal-python-cheat-sheet.txt ~/templates/`  
+**Use:** Reference anytime you start a new Python project.

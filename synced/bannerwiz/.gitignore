@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+.venv/
+env/
+ENV/
+
+# Generated outputs
+banner_output/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+available_figlet_fonts.txt
+available_figlet_fonts.txt
+debug.log
+debug.log

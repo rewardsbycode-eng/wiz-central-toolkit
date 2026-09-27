@@ -1,0 +1,52 @@
+# ASCII Banner Engine — Profile Configuration
+# Define named profiles for quick banner rendering.
+# Usage: python3 banner_engine.py --profile hero "WELCOME"
+
+profiles:
+  hero:
+    font: big
+    style: neon-green
+    align: center
+    auto_fit: true
+
+  subtitle:
+    font: small
+    style: clean
+    align: center
+    auto_fit: false
+
+  error:
+    font: standard
+    style: heavy
+    align: left
+    auto_fit: true
+
+  success:
+    font: slant
+    style: neon-green
+    align: center
+    auto_fit: true
+
+  warning:
+    font: speed
+    style: comic
+    align: center
+    auto_fit: true
+
+  matrix:
+    font: binary
+    style: matrix
+    align: left
+    auto_fit: true
+
+  gothic:
+    font: gothic
+    style: royal
+    align: center
+    auto_fit: true
+
+  debug:
+    font: mini
+    style: minimal
+    align: left
+    auto_fit: false
