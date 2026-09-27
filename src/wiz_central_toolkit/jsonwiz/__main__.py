@@ -1,5 +1,11 @@
+"""Temporary placeholder for jsonwiz."""
+import sys
+
+
 def main(argv=None) -> int:
-    print("jsonwiz: not yet ported — placeholder")
-    return 0
+    print("jsonwiz: not yet ported — placeholder", file=sys.stderr)
+    return 3
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    sys.exit(main())

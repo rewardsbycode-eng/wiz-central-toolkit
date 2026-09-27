@@ -6,6 +6,7 @@ TOOLS = {
     "bannerwiz": "wiz_central_toolkit.bannerwiz.__main__",
     "codeguardwiz": "wiz_central_toolkit.codeguardwiz.__main__",
     "debugwiz": "wiz_central_toolkit.debugwiz.__main__",
+    "godfatherwiz": "wiz_central_toolkit.godfatherwiz.__main__",
     "diffwiz": "wiz_central_toolkit.diffwiz.__main__",
     "jsonwiz": "wiz_central_toolkit.jsonwiz.__main__",
     "pythonwiz": "wiz_central_toolkit.pythonwiz.__main__",
