@@ -17,6 +17,7 @@ IMPLEMENTED=(
     "godfatherwiz"
     "readwiz"
     "rustwiz"
+    "pythonwiz"
 )
 
 # PLACEHOLDER tools (expect exit 2 or 3 = not implemented)
@@ -25,7 +26,6 @@ PLACEHOLDERS=(
     "debugwiz"
     "diffwiz"
     "jsonwiz"
-    "pythonwiz"
     "tmuxwiz"
     "todowiz"
     "writewiz"
