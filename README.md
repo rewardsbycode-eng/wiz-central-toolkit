@@ -549,4 +549,3 @@ src/
 
 ## License
 
-Add the project license and copyright information here when finalized.
