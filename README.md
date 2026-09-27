@@ -1,5 +1,35 @@
 # Wiz Central Toolkit
 
+## Welcome
+
+Welcome to Wiz Central Toolkit.
+
+Wiz Central Toolkit is a command-line toolkit for deterministic developer utilities. It brings multiple practical tools together under one project and provides a consistent way to run them from the terminal.
+
+The main command is `wiz`. It dispatches requests to the toolkit's registered utilities. The project also includes `godfatherwiz`, an interactive router that helps users discover and launch available tools. Optional AI support can be configured through Ollama or an OpenAI-compatible API.
+
+The toolkit is intended to be:
+
+- Simple to install and run
+- Organized around independent command-line tools
+- Useful for repeatable developer workflows
+- Easy to extend with new utilities
+- Safe to use in environments where predictable output matters
+
+This project is currently under active development. Some tools may be experimental or incomplete, while implemented tools are tested through the project's automated test suite.
+
+## What Is Wiz Central Toolkit?
+
+Wiz Central Toolkit is a collection of command-line utilities managed from one central interface.
+
+Instead of installing or remembering separate commands for every utility, users can work from a single toolkit and access the available functionality through `wiz` or `godfatherwiz`.
+
+Typical usage looks like this:
+
+```bash
+wiz <tool> [arguments]
+
+
 Wiz Central Toolkit is a command-line collection of deterministic developer utilities. The main command is `wiz`, which dispatches to individual tools. `godfatherwiz` provides an interactive router for all registered tools and optional AI access through Ollama or an OpenAI-compatible API.
 
 ## Requirements
