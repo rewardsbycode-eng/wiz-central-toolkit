@@ -33,6 +33,18 @@ wiz <tool> [arguments]
 
 The main command is `wiz`, which dispatches to individual tools. `godfatherwiz` provides an interactive router for all registered tools and optional AI access through Ollama or an OpenAI-compatible API.
 
+## Prerequisites
+
+Before installing, ensure you have these system tools:
+
+| Tool | Purpose | Install Command |
+|---|---|---|
+| jq | JSON parsing for API responses | `sudo apt-get install jq` |
+| python3 | Runtime (v3.13+) | Already installed |
+| git | Version control | Already installed |
+
+Run `./INSTALL.sh` to auto-install missing dependencies.
+
 ## Requirements
 
 - Python 3.10 or newer
@@ -580,3 +592,22 @@ src/
 
 ## License
 
+
+The software is licensed under the Apache License, Version 2.0.
+This includes explicit patent protection with retaliation clauses.
+
+See [LICENSE](LICENSE) for full terms.
+
+## Patent Notice
+
+By contributing to this project, you grant a patent license to all users.
+If you initiate patent litigation against this project, your license terminates automatically.
+
+This protects the toolkit and its users from patent threats while maintaining open access.
+
+---
+
+**Project:** wiz-central-toolkit  
+**License:** Apache-2.0  
+**Author:** Alexander Sanchez  
+**Version:** v1.0-public
