@@ -611,3 +611,30 @@ This protects the toolkit and its users from patent threats while maintaining op
 **License:** Apache-2.0  
 **Author:** Alexander Sanchez  
 **Version:** v1.0-public
+
+## Upstream Synchronization
+
+This toolkit is a public distribution derived from the private wizard_central Sovereign Fleet.
+
+### Syncing Updates
+
+To pull public-compatible updates from the sovereign fleet:
+
+```bash
+python3 scripts/sync_from_fleet.py ~/wizard_central ~/wiz-central-toolkit --dry-run
+python3 scripts/sync_from_fleet.py ~/wizard_central ~/wiz-central-toolkit
+```
+
+Note: Private doctrine, Governor certifications, and Fleet Laws are automatically filtered.
+
+### Version History
+
+| Version | Date | Changes |
+|---|---|---|
+| v1.0-public | 2026-09-27 | Initial public release |
+| v1.1-public | TBD | pythonwiz syntax checker added |
+
+### Contributing Back
+
+Improvements to public tools may be contributed back to the sovereign fleet via review.
+Private doctrine changes remain exclusive to the sovereign fleet.
