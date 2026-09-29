@@ -1,6 +1,7 @@
 """debug-wizard brain — the diagnosis oracle. Never mutates; only proposes."""
 
 import ast
+import builtins
 import json
 from collections import Counter
 from pathlib import Path
@@ -85,18 +86,51 @@ def _classify(errors: list[dict]) -> dict[str, int]:
     counts = Counter(e["type"] for e in errors)
     return dict(counts)
 
+_MODULE_DUNDERS = frozenset(
+    {"__file__", "__name__", "__doc__", "__package__", "__spec__",
+     "__loader__", "__builtins__", "__path__", "__cached__"}
+)
+
+
 def _missing_imports(file: Path) -> list[str]:
-    """Detect likely missing imports via NameError patterns."""
+    """Names read but never bound anywhere in the file (likely missing imports)."""
     try:
         tree = ast.parse(file.read_text(encoding="utf-8", errors="replace"))
-    except SyntaxError:
+    except (SyntaxError, ValueError, OSError):
         return []
-    imports = {node.names[0].name for node in ast.walk(tree) if isinstance(node, ast.Import)}
-    imports |= {node.module.split(".")[0] for node in ast.walk(tree) if isinstance(node, ast.ImportFrom) and node.module}
-    names = {node.id for node in ast.walk(tree) if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load)}
-    builtins = set(dir(__builtins__)) if isinstance(__builtins__, dict) else set(__builtins__.__dict__)
-    likely_missing = names - imports - builtins - {None}
-    return sorted(likely_missing)[:10]
+    bound: set[str] = set(dir(builtins)) | _MODULE_DUNDERS
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and any(a.name == "*" for a in node.names):
+            return []  # star import: cannot know what it defines
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                bound.add(alias.asname or alias.name.split(".")[0])
+        elif isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                bound.add(alias.asname or alias.name)
+        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            bound.add(node.name)
+        elif isinstance(node, ast.arg):
+            bound.add(node.arg)
+        elif isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)):
+            bound.add(node.id)
+        elif isinstance(node, ast.ExceptHandler) and node.name:
+            bound.add(node.name)
+        elif isinstance(node, (ast.Global, ast.Nonlocal)):
+            bound.update(node.names)
+        elif isinstance(node, (ast.MatchAs, ast.MatchStar)) and node.name:
+            bound.add(node.name)
+        elif isinstance(node, ast.MatchMapping) and node.rest:
+            bound.add(node.rest)
+        elif type(node).__name__ in ("TypeVar", "ParamSpec", "TypeVarTuple"):
+            bound.add(str(getattr(node, "name", "")))
+    used = {
+        node.id
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load)
+    }
+    return sorted(used - bound)
+
 
 def _signature_issues(file: Path) -> list[dict]:
     """Detect call vs definition mismatches."""
