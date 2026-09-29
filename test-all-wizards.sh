@@ -24,11 +24,11 @@ IMPLEMENTED=(
     "todowiz"
     "writewiz"
     "tmuxwiz"
+    "codeguardwiz"
 )
 
 # PLACEHOLDER tools (expect exit 2 or 3 = not implemented)
 PLACEHOLDERS=(
-    "codeguardwiz"
 )
 
 echo "--- Phase 1: Implemented Tools (must respond with exit 0) ---"
@@ -166,6 +166,9 @@ check "[writewiz] law" 0 wiz writewiz law
 
 # tmuxwiz (no tmux server needed: unknown subcommand must exit 2)
 check "[tmuxwiz] unknown subcommand" 2 wiz tmuxwiz bogus-subcommand
+
+# codeguardwiz (lang detection needs no Ollama; audit/fix do, so not tested here)
+check "[codeguardwiz] lang" 0 wiz codeguardwiz lang "$T/good/ok.py"
 
 # todowiz: intentionally not covered here; it writes to ~/.todo-wizard and
 # needs an isolated bank directory before it can be tested safely.
