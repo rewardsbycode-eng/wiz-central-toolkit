@@ -1,9 +1,6 @@
 """Tests for pythonwiz syntax checker."""
 
-import pytest
-import tempfile
-from pathlib import Path
-from wiz_central_toolkit.pythonwiz.__main__ import check_file, check_directory
+from wiz_central_toolkit.pythonwiz.__main__ import check_directory, check_file
 
 
 class TestCheckFile:

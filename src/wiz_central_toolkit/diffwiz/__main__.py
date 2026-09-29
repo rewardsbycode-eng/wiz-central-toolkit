@@ -1,6 +1,7 @@
 """diffwiz — standalone change-truth doctor. Ported from wizard_central's diff-wizard."""
 import sys
 from pathlib import Path
+
 from .diff_wizard import DiffWizard
 
 

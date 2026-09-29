@@ -1,6 +1,5 @@
 import sys
 from unittest.mock import patch
-import pytest
 
 from src.wiz_central_toolkit.diffwiz.__main__ import main
 

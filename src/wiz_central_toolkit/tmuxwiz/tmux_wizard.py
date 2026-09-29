@@ -1,4 +1,3 @@
-import sys
 """tmux_wizard - sovereign tmux session manager (stdlib only)."""
 import subprocess
 

@@ -1,5 +1,7 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 import wiz_central_toolkit.codeguardwiz.__main__ as codeguardwiz_cli
 import wiz_central_toolkit.debugwiz.__main__ as debugwiz_cli
 import wiz_central_toolkit.diffwiz.__main__ as diffwiz_cli

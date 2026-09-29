@@ -3,9 +3,23 @@ import sys
 from pathlib import Path
 
 from .debug_wizard import (
-    DEBUG_LAW, add_ignore, remove_ignore, load_ignored, trace, classify_file,
-    locate, count_dir, hotspot, timeline, imports, names, signatures,
-    suggest_fix, audit_dir, report_json, stats_fleet)
+    DEBUG_LAW,
+    add_ignore,
+    audit_dir,
+    classify_file,
+    count_dir,
+    hotspot,
+    imports,
+    load_ignored,
+    locate,
+    names,
+    report_json,
+    signatures,
+    stats_fleet,
+    suggest_fix,
+    timeline,
+    trace,
+)
 
 USAGE = """debugwiz - the diagnosis oracle
 usage: debugwiz law                     print the DEBUG LAW alone

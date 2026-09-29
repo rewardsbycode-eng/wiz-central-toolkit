@@ -1,8 +1,9 @@
 """Tests for debugwiz — ported from wizard_central's debug-wizard.
 Isolates BANK/IGNORE_LIST to a tmp dir so tests never touch the real ~/.debug-wizard/."""
 import pytest
-from wiz_central_toolkit.debugwiz import debug_wizard
+
 from wiz_central_toolkit.debugwiz import __main__ as debugwiz_main
+from wiz_central_toolkit.debugwiz import debug_wizard
 
 
 @pytest.fixture(autouse=True)

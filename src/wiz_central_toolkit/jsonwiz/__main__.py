@@ -1,7 +1,8 @@
 """jsonwiz — standalone JSON doctor. Ported from wizard_central's json-wizard."""
-import sys
 import json as jsonlib
+import sys
 from pathlib import Path
+
 from .json_wizard import JsonWizard
 
 

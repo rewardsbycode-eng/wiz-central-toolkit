@@ -3,13 +3,13 @@ CodeGuard Wizard — universal code auditor & auto-fixer.
 Naturalized citizen: stdlib-only (no requests), live daemon roster (no
 hardcoded models), localhost default. Verdicts are plain text.
 """
-import os
-import json
-import re
 import hashlib
+import json
+import os
+import re
 import urllib.request
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 OLLAMA_BASE = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434")
 
@@ -188,7 +188,7 @@ def read_code(filepath):
     try:
         with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
             return f.read()
-    except OSError as e:
+    except OSError:
         return None
 
 

@@ -1,6 +1,6 @@
-from unittest.mock import patch
 import sys
-import pytest
+from unittest.mock import patch
+
 from wiz_central_toolkit.godfatherwiz import __main__ as godfatherwiz_main
 from wiz_central_toolkit.godfatherwiz import ai as godfather_ai
 

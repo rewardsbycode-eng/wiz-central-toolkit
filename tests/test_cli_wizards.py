@@ -1,8 +1,8 @@
-import pytest
 from unittest.mock import patch
+
+import wiz_central_toolkit.godfatherwiz.__main__ as godfatherwiz_cli
 import wiz_central_toolkit.readwiz.__main__ as readwiz_cli
 import wiz_central_toolkit.rustwiz.__main__ as rustwiz_cli
-import wiz_central_toolkit.godfatherwiz.__main__ as godfatherwiz_cli
 
 
 def test_readwiz_cli_verbs(capsys):

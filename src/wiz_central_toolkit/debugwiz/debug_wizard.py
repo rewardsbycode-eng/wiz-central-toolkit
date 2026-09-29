@@ -2,11 +2,8 @@
 
 import ast
 import json
-import re
-import subprocess
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
-from typing import List, Dict, Tuple, Any
 
 HOME = Path.home()
 BANK = HOME / ".debug-wizard"
@@ -26,7 +23,7 @@ def _ensure_bank():
     if not IGNORE_LIST.exists():
         IGNORE_LIST.write_text("[]")
 
-def load_ignored() -> List[str]:
+def load_ignored() -> list[str]:
     _ensure_bank()
     try:
         return json.loads(IGNORE_LIST.read_text())
@@ -65,7 +62,7 @@ def _walk_py_files(root: Path):
             continue
         yield p
 
-def _compile_errors(file: Path) -> List[Dict]:
+def _compile_errors(file: Path) -> list[dict]:
     """Return list of compilation errors without tracebacks."""
     errors = []
     try:
@@ -84,11 +81,11 @@ def _compile_errors(file: Path) -> List[Dict]:
         errors.append({"line": 0, "type": type(e).__name__, "message": str(e)})
     return errors
 
-def _classify(errors: List[Dict]) -> Dict[str, int]:
+def _classify(errors: list[dict]) -> dict[str, int]:
     counts = Counter(e["type"] for e in errors)
     return dict(counts)
 
-def _missing_imports(file: Path) -> List[str]:
+def _missing_imports(file: Path) -> list[str]:
     """Detect likely missing imports via NameError patterns."""
     try:
         tree = ast.parse(file.read_text(encoding="utf-8", errors="replace"))
@@ -101,7 +98,7 @@ def _missing_imports(file: Path) -> List[str]:
     likely_missing = names - imports - builtins - {None}
     return sorted(likely_missing)[:10]
 
-def _signature_issues(file: Path) -> List[Dict]:
+def _signature_issues(file: Path) -> list[dict]:
     """Detect call vs definition mismatches."""
     issues = []
     try:
@@ -120,17 +117,17 @@ def _signature_issues(file: Path) -> List[Dict]:
                           "message": f"{func_name} def={defs[func_name]['args']} args, call={call_args}"})
     return issues
 
-def trace(file: Path) -> Dict:
+def trace(file: Path) -> dict:
     """Autopsy one file's compilation errors."""
     errors = _compile_errors(file)
     return {"file": str(file), "errors": errors, "ok": len(errors) == 0}
 
-def classify_file(file: Path) -> Dict:
+def classify_file(file: Path) -> dict:
     """Error type breakdown."""
     errors = _compile_errors(file)
     return {"file": str(file), "classification": _classify(errors), "total": len(errors)}
 
-def locate(root: Path, pattern: str) -> List[str]:
+def locate(root: Path, pattern: str) -> list[str]:
     """Find files with given error pattern."""
     hits = []
     for f in _walk_py_files(root):
@@ -141,14 +138,14 @@ def locate(root: Path, pattern: str) -> List[str]:
                 break
     return hits
 
-def count_dir(root: Path) -> Dict:
+def count_dir(root: Path) -> dict:
     """Errors by category."""
     all_errors = []
     for f in _walk_py_files(root):
         all_errors.extend(_compile_errors(f))
     return {"totals": _classify(all_errors), "files_checked": sum(1 for _ in _walk_py_files(root))}
 
-def hotspot(root: Path) -> List[Tuple[str, int]]:
+def hotspot(root: Path) -> list[tuple[str, int]]:
     """Files with most errors, ranked."""
     scores = []
     for f in _walk_py_files(root):
@@ -157,7 +154,7 @@ def hotspot(root: Path) -> List[Tuple[str, int]]:
             scores.append((str(f), err_count))
     return sorted(scores, key=lambda x: -x[1])[:10]
 
-def timeline(root: Path) -> List[Dict]:
+def timeline(root: Path) -> list[dict]:
     """Error frequency by modification time."""
     data = []
     for f in _walk_py_files(root):
@@ -171,16 +168,16 @@ def timeline(root: Path) -> List[Dict]:
     data.sort(key=lambda x: -x["mtime"])
     return data
 
-def imports(file: Path) -> Dict:
+def imports(file: Path) -> dict:
     """Missing import detection."""
     missing = _missing_imports(file)
     return {"file": str(file), "likely_missing": missing}
 
-def names(file: Path) -> List[str]:
+def names(file: Path) -> list[str]:
     """Undefined names."""
     return _missing_imports(file)
 
-def signatures(file: Path) -> List[Dict]:
+def signatures(file: Path) -> list[dict]:
     """Function signature issues."""
     return _signature_issues(file)
 
@@ -196,7 +193,7 @@ def suggest_fix(file: Path) -> str:
         lines.append(f"  ... and {len(errs['errors']) - 5} more errors")
     return "\n".join(lines)
 
-def audit_dir(root: Path) -> Dict:
+def audit_dir(root: Path) -> dict:
     """Full error census."""
     files = list(_walk_py_files(root))
     healthy = 0

@@ -67,11 +67,11 @@ def main(argv=None) -> int:
     if not args or args[0] in ("-h", "--help"):
         print(__doc__)
         print("usage: pythonwiz check <file.py|directory>")
-        print("")
+        print()
         print("subcommands:")
         print("  check <path>    validate Python syntax")
         print("  --version       show version")
-        print("")
+        print()
         print("examples:")
         print('  pythonwiz check main.py')
         print('  pythonwiz check ./src/')

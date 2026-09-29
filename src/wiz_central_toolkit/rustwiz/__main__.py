@@ -1,5 +1,6 @@
 """rustwiz — honest Rust validator. Ported from wizard_central's rust-wizard."""
 import sys
+
 from .rust_wizard import RustWizard
 
 

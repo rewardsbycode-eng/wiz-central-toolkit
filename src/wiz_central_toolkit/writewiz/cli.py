@@ -4,10 +4,27 @@ import json
 import sys
 
 from .write_wizard import (
-    LAW_TEXT, propose, gate_and_diff, commit, _draft_path, _ensure_quarantine,
-    discard, rollback, guard_sweep, audit_quarantine, purge_old, stats,
-    ledger_rows, explain, protect, unprotect, load_protected, law_digest,
-    BACKUPS, QUARANTINE)
+    BACKUPS,
+    LAW_TEXT,
+    QUARANTINE,
+    _draft_path,
+    _ensure_quarantine,
+    audit_quarantine,
+    commit,
+    discard,
+    explain,
+    gate_and_diff,
+    guard_sweep,
+    law_digest,
+    ledger_rows,
+    load_protected,
+    propose,
+    protect,
+    purge_old,
+    rollback,
+    stats,
+    unprotect,
+)
 
 USAGE = """writewiz - the consent wall for file writes
 usage: writewiz propose <path>        stage content (reads stdin) in quarantine

@@ -1,10 +1,10 @@
 """Tests for jsonwiz — ported from wizard_central's json-wizard."""
-import json
 import sys
-import pytest
-from wiz_central_toolkit.jsonwiz.json_wizard import JsonWizard
-from wiz_central_toolkit.jsonwiz import __main__ as jsonwiz_main
 
+import pytest
+
+from wiz_central_toolkit.jsonwiz import __main__ as jsonwiz_main
+from wiz_central_toolkit.jsonwiz.json_wizard import JsonWizard
 
 # ---------- JsonWizard brain unit tests ----------
 

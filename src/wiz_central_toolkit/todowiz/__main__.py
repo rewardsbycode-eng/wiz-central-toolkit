@@ -1,6 +1,7 @@
 """todowiz — standalone todo wizard. Ported from wizard_central's todo-wizard."""
-import sys
 import json
+import sys
+
 from .todo_wizard import TodoWizard
 
 

@@ -1,6 +1,7 @@
 """readwiz — read-only mode policy engine. Ported from wizard_central's read-wizard."""
 import sys
-from .read_wizard import check_command, LAW_TEXT, ALLOW_VERBS, DENY_VERBS
+
+from .read_wizard import ALLOW_VERBS, DENY_VERBS, LAW_TEXT, check_command
 
 USAGE = """readwiz - read-only mode policy engine (verb gate)
 usage: readwiz check "<raw shell command>"

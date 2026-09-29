@@ -1,16 +1,16 @@
 """todo-wizard core: standalone, importable todo engine."""
-import json
-import hashlib
 import datetime as dt
+import hashlib
+import json
 from pathlib import Path
-from typing import Optional
+
 
 class TodoWizard:
     """Per-project persistent todo engine. Storage lives in ~/.todo-wizard/."""
 
     BANK = Path.home() / ".todo-wizard"
 
-    def __init__(self, project_dir: Optional[str] = None, bank: Optional[Path] = None):
+    def __init__(self, project_dir: str | None = None, bank: Path | None = None):
         self.project = Path(project_dir or Path.cwd()).resolve()
         self.bank = bank or self.BANK
         self.store_path = self._store_for(self.project)
@@ -101,7 +101,7 @@ class TodoWizard:
                 return True
         return False
 
-    def oldest(self) -> Optional[dict]:
+    def oldest(self) -> dict | None:
         """Return the stalest pending task."""
         pending = self.list_todos(pending_only=True)
         if not pending:

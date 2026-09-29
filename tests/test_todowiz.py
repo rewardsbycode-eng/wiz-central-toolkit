@@ -1,6 +1,6 @@
 """Tests for todowiz — ported from wizard_central's todo-wizard. Uses an isolated bank dir."""
-import json
 import pytest
+
 from wiz_central_toolkit.todowiz.todo_wizard import TodoWizard
 
 

@@ -1,8 +1,10 @@
 """json-wizard CLI front-end."""
-import sys
 import json as jsonlib
+import sys
 from pathlib import Path
+
 from .json_wizard import JsonWizard
+
 
 def _read_source(arg: str):
     if arg == "-":

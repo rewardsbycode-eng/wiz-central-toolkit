@@ -8,7 +8,6 @@ import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
-
 WIZARD_MAPPING = {
     "banner-wizard": "bannerwiz",
     "read-wizard": "readwiz",

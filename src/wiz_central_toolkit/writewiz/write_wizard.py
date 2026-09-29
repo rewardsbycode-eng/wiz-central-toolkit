@@ -16,7 +16,6 @@ import hashlib
 import json
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 
 HOME = Path.home()

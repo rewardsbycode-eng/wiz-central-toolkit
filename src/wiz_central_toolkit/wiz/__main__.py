@@ -10,7 +10,6 @@ import sys
 
 from wiz_central_toolkit.tools_registry import TOOLS, get_tool_main
 
-
 ALIASES = {
     "banner": "bannerwiz",
     "codeguard": "codeguardwiz",

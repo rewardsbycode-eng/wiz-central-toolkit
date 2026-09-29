@@ -91,7 +91,7 @@ class PythonWizard:
         return {k: sorted(v) for k, v in result.items()}
 
     def todos_of(self, path: Path) -> list:
-        pat = re.compile(r"#\s*(TODO|FIXME|XXX|BUG|HACK)\b[:]?(.*)", re.I)
+        pat = re.compile(r"#\s*(TODO|FIXME|XXX|BUG|HACK)\b[:]?(.*)", re.IGNORECASE)
         out = []
         for i, line in enumerate(path.read_text().splitlines(), 1):
             m = pat.search(line)

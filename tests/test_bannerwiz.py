@@ -1,5 +1,5 @@
-import pytest
 from unittest.mock import patch
+
 import wiz_central_toolkit.bannerwiz.__main__ as bannerwiz_cli
 
 

@@ -1,4 +1,3 @@
-import pytest
 from wiz_central_toolkit.rustwiz.rust_wizard import RustWizard
 
 

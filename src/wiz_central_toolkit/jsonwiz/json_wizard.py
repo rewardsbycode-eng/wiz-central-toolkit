@@ -1,6 +1,6 @@
 """json-wizard core: standalone, importable JSON doctor. Validate, pretty-print, inspect."""
 import json
-from pathlib import Path
+
 
 class JsonWizard:
     """JSON validation and inspection engine. Never modifies the input file."""

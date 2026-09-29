@@ -1,11 +1,13 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
+
 from wiz_central_toolkit.godfatherwiz.ai import (
-    provider_name,
-    provider_config,
-    status_text,
-    ask,
     AIProviderError,
+    ask,
+    provider_config,
+    provider_name,
+    status_text,
 )
 
 
