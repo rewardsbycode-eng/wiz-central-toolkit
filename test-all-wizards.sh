@@ -18,17 +18,17 @@ IMPLEMENTED=(
     "readwiz"
     "rustwiz"
     "pythonwiz"
+    "debugwiz"
+    "diffwiz"
+    "jsonwiz"
+    "todowiz"
+    "writewiz"
 )
 
 # PLACEHOLDER tools (expect exit 2 or 3 = not implemented)
 PLACEHOLDERS=(
     "codeguardwiz"
-    "debugwiz"
-    "diffwiz"
-    "jsonwiz"
     "tmuxwiz"
-    "todowiz"
-    "writewiz"
 )
 
 echo "--- Phase 1: Implemented Tools (must respond with exit 0) ---"
@@ -36,11 +36,12 @@ for tool in "${IMPLEMENTED[@]}"; do
     TOTAL=$((TOTAL + 1))
     echo -n "[$tool] --help ... "
     wiz "$tool" --help > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
+    rc=$?
+    if [ $rc -eq 0 ]; then
         echo "[PASS]"
         PASS_COUNT=$((PASS_COUNT + 1))
     else
-        echo "[FAIL] (exit $?)"
+        echo "[FAIL] (exit $rc)"
         FAIL_COUNT=$((FAIL_COUNT + 1))
     fi
 done
