@@ -23,12 +23,12 @@ IMPLEMENTED=(
     "jsonwiz"
     "todowiz"
     "writewiz"
+    "tmuxwiz"
 )
 
 # PLACEHOLDER tools (expect exit 2 or 3 = not implemented)
 PLACEHOLDERS=(
     "codeguardwiz"
-    "tmuxwiz"
 )
 
 echo "--- Phase 1: Implemented Tools (must respond with exit 0) ---"
@@ -163,6 +163,9 @@ check "[debugwiz] audit broken" nonzero wiz debugwiz audit "$T/bad"
 
 # writewiz
 check "[writewiz] law" 0 wiz writewiz law
+
+# tmuxwiz (no tmux server needed: unknown subcommand must exit 2)
+check "[tmuxwiz] unknown subcommand" 2 wiz tmuxwiz bogus-subcommand
 
 # todowiz: intentionally not covered here; it writes to ~/.todo-wizard and
 # needs an isolated bank directory before it can be tested safely.
