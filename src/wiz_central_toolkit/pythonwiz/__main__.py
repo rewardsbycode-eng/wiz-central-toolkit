@@ -61,6 +61,18 @@ def check_directory(dirpath: str) -> dict:
     }
 
 
+def _run_full_suite(args: list[str]) -> int:
+    """Delegate to the full analysis CLI (outline, secrets, score, ...)."""
+    from .cli import main as full_main
+
+    saved = sys.argv
+    sys.argv = ["pythonwiz", *args]
+    try:
+        return full_main()
+    finally:
+        sys.argv = saved
+
+
 def main(argv=None) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
     
@@ -71,6 +83,11 @@ def main(argv=None) -> int:
         print("subcommands:")
         print("  check <path>    validate Python syntax")
         print("  --version       show version")
+        print()
+        print("full analysis suite:")
+        from .cli import HELP as full_help
+
+        print(full_help)
         print()
         print("examples:")
         print('  pythonwiz check main.py')
@@ -83,9 +100,8 @@ def main(argv=None) -> int:
         return 0
     
     if args[0] != "check":
-        print(f"error: unknown command '{args[0]}'", file=sys.stderr)
-        print("use: pythonwiz check <file.py|directory>")
-        return 2
+        # everything except `check` is handled by the full analysis suite
+        return _run_full_suite(args)
     
     if len(args) < 2:
         print("error: check requires a path argument", file=sys.stderr)

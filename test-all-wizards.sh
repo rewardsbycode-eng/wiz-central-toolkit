@@ -98,6 +98,7 @@ echo 'def f(:'  > "$T/bad/broken.py"
 echo 'same'     > "$T/a.txt"
 echo 'same'     > "$T/b.txt"
 echo 'different' > "$T/c.txt"
+printf 'password = "hunter22"\n' > "$T/secret.py"
 
 # --- helper: check <label> <expected exit: N|nonzero> <command...> ---
 check() {
@@ -151,6 +152,9 @@ check "[jsonwiz] validate bad"  nonzero wiz jsonwiz validate "$T/bad.json"
 # pythonwiz
 check "[pythonwiz] check good" 0       wiz pythonwiz check "$T/good/ok.py"
 check "[pythonwiz] check bad"  nonzero wiz pythonwiz check "$T/bad/broken.py"
+check "[pythonwiz] outline"        0 wiz pythonwiz outline "$T/good/ok.py"
+check "[pythonwiz] secrets clean"  0 wiz pythonwiz secrets "$T/good/ok.py"
+check "[pythonwiz] secrets flagged" 1 wiz pythonwiz secrets "$T/secret.py"
 
 # diffwiz
 check "[diffwiz] same identical" 0 wiz diffwiz same "$T/a.txt" "$T/b.txt"
