@@ -17,6 +17,7 @@ import json
 import shutil
 import subprocess
 from pathlib import Path
+from typing import Any
 
 HOME = Path.home()
 BANK = HOME / ".write-wizard"
@@ -156,7 +157,7 @@ def explain(target_str: str) -> dict:
     draft, meta = _draft_path(target)
     if not draft.exists():
         return {"ok": False, "error": "no quarantined draft"}
-    verdict = {"ok": True, "target": str(target),
+    verdict: dict[str, Any] = {"ok": True, "target": str(target),
                "draft_bytes": draft.stat().st_size,
                "would_write": True, "reasons": []}
     if is_protected(target):

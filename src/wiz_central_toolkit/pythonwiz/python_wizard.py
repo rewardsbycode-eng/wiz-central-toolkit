@@ -66,7 +66,7 @@ class PythonWizard:
     def imports_of(self, path: Path) -> dict:
         tree = self.parse(path)
         siblings = {p.stem for p in path.parent.glob("*.py")}
-        result = {"stdlib": set(), "third_party": set(), "local": set(), "relative": set()}
+        result: dict[str, set[str]] = {"stdlib": set(), "third_party": set(), "local": set(), "relative": set()}
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 for a in node.names:
