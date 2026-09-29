@@ -25,7 +25,6 @@ ALLOW_VERBS = frozenset({
     # fleet read-only citizens — other wizards ARE read verbs
     "helpwiz", "pythonwiz", "diffwiz", "jsonwiz", "cmdwiz", "manualwiz",
     "gitwiz", "mapwiz",   # Governor decree 2026-09-18 — newborn inspectors admitted
-    "mapwiz",   # Governor decree 2026-09-18 — newborn inspectors admitted
     "truthwiz", "ollamawiz", "probewiz", "rustwiz", "readwiz",
     "benchwiz", "modelfilewiz",  # exam/show/hash/verify/list only
     # introspection

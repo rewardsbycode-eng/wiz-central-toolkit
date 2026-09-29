@@ -1,7 +1,7 @@
 import sys
 from unittest.mock import patch
 
-from src.wiz_central_toolkit.diffwiz.__main__ import main
+from wiz_central_toolkit.diffwiz.__main__ import main
 
 
 def test_diffwiz_help(capsys):

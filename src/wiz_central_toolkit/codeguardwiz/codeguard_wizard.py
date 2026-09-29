@@ -84,7 +84,8 @@ def detect_language(filepath: str) -> str:
     except Exception:
         pass
     try:
-        content = open(filepath, "r", errors="ignore").read(2048).lower()
+        with open(filepath, encoding="utf-8", errors="ignore") as fh:
+            content = fh.read(2048).lower()
         sigs = {
             "python": ["def ", "import ", "class ", "self.", "print(", "if __name__"],
             "javascript": ["function ", "const ", "let ", "var ", "console.log", "=>"],
@@ -97,7 +98,7 @@ def detect_language(filepath: str) -> str:
         }
         scores = {lang: sum(content.count(kw) for kw in kws)
                   for lang, kws in sigs.items()}
-        best = max(scores, key=scores.get) if scores else None
+        best = max(scores, key=lambda k: scores[k]) if scores else None
         if best and scores[best] >= 3:
             return best
     except Exception:
@@ -192,7 +193,7 @@ def read_code(filepath):
         return None
 
 
-def audit(filepath: str, model: str = None) -> dict:
+def audit(filepath: str, model: str | None = None) -> dict:
     """Audit one file. Returns a result dict; status OK/FAILED."""
     code = read_code(filepath)
     if code is None:
@@ -226,7 +227,9 @@ def audit(filepath: str, model: str = None) -> dict:
             "timestamp": datetime.now().isoformat()}
 
 
-def fix(filepath: str, audit_result: dict = None, model: str = None) -> dict:
+def fix(
+    filepath: str, audit_result: dict | None = None, model: str | None = None
+) -> dict:
     """Generate fixed code for one file. Does NOT write — caller consents."""
     code = read_code(filepath)
     if code is None:

@@ -33,7 +33,7 @@ def _ensure_quarantine():
         PROTECTED.write_text("[]")
 
 
-def _draft_path(target: Path) -> Path:
+def _draft_path(target: Path) -> tuple[Path, Path]:
     """Deterministic draft slot for a target path (survives slashes)."""
     ident = hashlib.sha256(str(target).encode()).hexdigest()[:16]
     meta = QUARANTINE / (ident + ".meta")
@@ -296,7 +296,7 @@ def purge_old(days: int, confirm_reader=None) -> tuple:
 
 
 def stats() -> dict:
-    counts = {}
+    counts: dict[str, int] = {}
     for row in ledger_rows():
         counts[row["event"]] = counts.get(row["event"], 0) + 1
     _ensure_quarantine()

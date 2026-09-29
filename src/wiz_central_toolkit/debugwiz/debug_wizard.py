@@ -92,7 +92,7 @@ def _missing_imports(file: Path) -> list[str]:
     except SyntaxError:
         return []
     imports = {node.names[0].name for node in ast.walk(tree) if isinstance(node, ast.Import)}
-    imports |= {node.module.split(".")[0] for node in ast.walk(tree) if isinstance(node, ast.ImportFrom)}
+    imports |= {node.module.split(".")[0] for node in ast.walk(tree) if isinstance(node, ast.ImportFrom) and node.module}
     names = {node.id for node in ast.walk(tree) if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load)}
     builtins = set(dir(__builtins__)) if isinstance(__builtins__, dict) else set(__builtins__.__dict__)
     likely_missing = names - imports - builtins - {None}

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import shutil
 import sys
+from typing import Literal, cast
 
 from pyfiglet import Figlet
 from rich import box
@@ -99,12 +100,9 @@ def display_banner(
         print(f"bannerwiz: {exc}", file=sys.stderr)
         return 2
 
-    if style in STYLES:
-        color, border, preset_align = STYLES[style]
-    else:
-        color, border, preset_align = style, box.ROUNDED, "left"
+    color, border, preset_align = STYLES.get(style, (style, box.ROUNDED, "left"))
 
-    selected_align = align or preset_align
+    selected_align = cast(Literal["left", "center", "right"], align or preset_align)
     rich_text = Text(art, style=color)
     aligned = Align(rich_text, align=selected_align)
 

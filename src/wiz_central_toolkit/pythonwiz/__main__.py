@@ -14,7 +14,7 @@ def check_file(filepath: str) -> tuple[str, str]:
     if not path.exists():
         return "FAIL", f"file not found: {filepath}"
     
-    if not path.suffix == ".py":
+    if path.suffix != ".py":
         return "FAIL", f"not a .py file: {filepath}"
     
     try:
@@ -45,7 +45,7 @@ def check_directory(dirpath: str) -> dict:
     failed = 0
     
     for py_file in py_files:
-        verdict, reason = check_file(str(py_file))
+        verdict, _reason = check_file(str(py_file))
         results.append({"file": str(py_file), "verdict": verdict})
         if verdict == "OK":
             passed += 1

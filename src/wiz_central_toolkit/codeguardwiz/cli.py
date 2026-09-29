@@ -5,8 +5,7 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from lib.codeguard_wizard import (
+from .codeguard_wizard import (
     AUDIT_PREFS,
     FIX_PREFS,
     audit,
