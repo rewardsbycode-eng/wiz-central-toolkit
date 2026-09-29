@@ -109,7 +109,7 @@ wiz <tool> --help
 |---|---|---|
 | `bannerwiz` | Implemented | Render styled FIGlet ASCII banners |
 | `codeguardwiz` | Placeholder | Planned code-safety checker |
-| `debugwiz` | Placeholder | Planned debugging utility |
+| `debugwiz` | Implemented | Traceback analysis, classification, auditing, and debug reports |
 | `diffwiz` | Placeholder | Planned diff utility |
 | `godfatherwiz` | Implemented | Interactive deterministic router with optional AI |
 | `jsonwiz` | Placeholder | Planned JSON utility |
@@ -557,7 +557,7 @@ git show --stat --oneline HEAD
 
 ## Current Test Status
 
-The current test suite contains the package version test. Run:
+The current test suite includes the debugwiz test suite. Run:
 
 ```bash
 python3 -m pytest

@@ -1,1 +1,1 @@
-"""jsonwiz — part of Wizard Central Toolkit."""
+# wizard package init

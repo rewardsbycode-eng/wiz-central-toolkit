@@ -1,10 +1,8 @@
-"""Temporary placeholder for writewiz."""
+"""writewiz — staged, consent-gated file writer."""
+
 import sys
 
-
-def main(argv=None) -> int:
-    print("writewiz: not yet ported — placeholder", file=sys.stderr)
-    return 3
+from .cli import main
 
 
 if __name__ == "__main__":
