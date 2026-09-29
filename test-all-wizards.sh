@@ -174,8 +174,19 @@ check "[tmuxwiz] unknown subcommand" 2 wiz tmuxwiz bogus-subcommand
 # codeguardwiz (lang detection needs no Ollama; audit/fix do, so not tested here)
 check "[codeguardwiz] lang" 0 wiz codeguardwiz lang "$T/good/ok.py"
 
-# todowiz: intentionally not covered here; it writes to ~/.todo-wizard and
-# needs an isolated bank directory before it can be tested safely.
+# todowiz: HOME is redirected so the bank lands in the temp dir, never ~/.todo-wizard.
+# Gate: only write if the bank path really follows HOME.
+mkdir -p "$T/home"
+TODO_BANK=$(env HOME="$T/home" python -c 'from wiz_central_toolkit.todowiz.todo_wizard import TodoWizard as W; print(W.BANK)' 2>/dev/null)
+if [ "$TODO_BANK" = "$T/home/.todo-wizard" ]; then
+    check "[todowiz] add"     0 env HOME="$T/home" wiz todowiz add "harness task"
+    check "[todowiz] list"    0 env HOME="$T/home" wiz todowiz list
+    check "[todowiz] stats"   0 env HOME="$T/home" wiz todowiz stats
+    check "[todowiz] overdue" 0 env HOME="$T/home" wiz todowiz overdue
+    check "[todowiz] bank stayed in temp dir" 0 test -d "$T/home/.todo-wizard"
+else
+    echo "[todowiz] functional checks SKIPPED: bank does not follow HOME (got: ${TODO_BANK:-nothing})"
+fi
 
 echo ""
 echo "=========================================="
