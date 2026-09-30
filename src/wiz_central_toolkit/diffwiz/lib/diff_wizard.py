@@ -43,6 +43,19 @@ class DiffWizard:
         ))
 
     def diff_summary(self, source_a: Path, source_b: Path) -> dict:
+        if source_a.is_dir() and source_b.is_dir():
+            result = self.diff_dirs(source_a, source_b)
+            added = len(result["only_b"])
+            removed = len(result["only_a"])
+            changed = len(result["differing"])
+            if not (added or removed or changed):
+                return {"identical": True}
+            return {
+                "identical": False,
+                "added_lines": added + changed,
+                "removed_lines": removed + changed,
+                "hunks": added + removed + changed,
+            }
         diff_text = self.diff_files(source_a, source_b)
         if not diff_text:
             return {"identical": True}

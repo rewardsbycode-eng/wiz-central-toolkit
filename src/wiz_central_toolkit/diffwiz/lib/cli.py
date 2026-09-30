@@ -3,8 +3,9 @@ import sys
 from pathlib import Path
 from .diff_wizard import DiffWizard
 
-def main() -> int:
-    args = sys.argv[1:]
+
+def main(argv=None) -> int:
+    args = sys.argv[1:] if argv is None else list(argv)
     if not args or args[0] in ("-h", "--help"):
         print("diffwiz - standalone change-truth doctor")
         print("usage: diffwiz <command> [args]")
@@ -36,6 +37,7 @@ def main() -> int:
         print(text)
         print("[FAIL] files differ")
         return 1
+
     if args[0] == "dirs":
         if len(args) < 3:
             print("out of scope")
@@ -77,6 +79,7 @@ def main() -> int:
         print(text)
         print("[FAIL] files differ")
         return 1
+
     if args[0] == "summary":
         if len(args) < 3:
             print("out of scope")
@@ -86,12 +89,16 @@ def main() -> int:
             if not p.exists():
                 print(f"[FAIL] not found: {p}")
                 return 1
+            if not p.is_file():
+                print(f"[FAIL] not a file: {p}")
+                return 1
         r = wiz.diff_summary(a, b)
         if r["identical"]:
             print("[OK] identical")
             return 0
         print(f"added={r['added_lines']} removed={r['removed_lines']} hunks={r['hunks']}")
         return 1
+
     if args[0] == "word":
         if len(args) < 3:
             print("out of scope")
@@ -103,6 +110,7 @@ def main() -> int:
                 return 1
         print(wiz.diff_word_level(a, b))
         return 0
+
     if args[0] == "same":
         if len(args) < 3:
             print("out of scope")
@@ -113,6 +121,7 @@ def main() -> int:
                 print(f"[FAIL] not found: {p}")
                 return 1
         return 0 if wiz.files_identical(a, b) else 1
+
     if args[0] == "reverse":
         if len(args) < 3:
             print("out of scope")
