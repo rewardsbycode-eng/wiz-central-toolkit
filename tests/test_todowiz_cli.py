@@ -8,21 +8,14 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-try:
-    from todowiz.cli import main
-except ModuleNotFoundError:
-    try:
-        from wizard_central.todowiz.cli import main
-    except ModuleNotFoundError:
-        from src.todowiz.cli import main
+from wiz_central_toolkit.todowiz.cli import main
 
 
 def test_todowiz_cli_help(capsys):
     """Test todowiz help message output."""
     with patch.object(sys, "argv", ["todowiz", "--help"]):
-        with pytest.raises(SystemExit) as exc_info:
-            main()
-        assert exc_info.value.code == 0
+        assert main() == 0
+        assert "usage: todowiz" in capsys.readouterr().out
 
 
 def test_todowiz_cli_list_tasks(capsys):

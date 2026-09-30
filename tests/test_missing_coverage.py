@@ -10,7 +10,7 @@ def test_godfatherwiz_main_execution_with_mocked_ai(monkeypatch, capsys):
     monkeypatch.setattr(sys, "argv", ["godfatherwiz", "give me advice"])
 
     # Provide mock stdin inputs to satisfy input() calls and cleanly terminate the REPL loop
-    input_responses = iter(["give me advice", "exit"])
+    input_responses = iter(["give me advice", "/quit"])
     monkeypatch.setattr("builtins.input", lambda prompt="": next(input_responses))
 
     # Determine what functions/classes exist on godfather_ai to patch appropriately
@@ -29,7 +29,7 @@ def test_godfatherwiz_main_execution_with_mocked_ai(monkeypatch, capsys):
         godfatherwiz_main.main()
 
     captured = capsys.readouterr()
-    assert "godfatherwiz" in captured.out
+    assert "stub reply" in captured.out
 
 from types import SimpleNamespace
 from unittest.mock import Mock
@@ -147,7 +147,7 @@ def test_rustwiz_main_no_arguments(capsys):
     assert "usage:" in capsys.readouterr().out
 
 
-def test_rustwiz_main_check(monkeypatch):
+def test_rustwiz_main_check(monkeypatch, tmp_path):
     """Cover the CLI check command."""
     monkeypatch.setattr(
         rust_main.RustWizard,
@@ -155,12 +155,14 @@ def test_rustwiz_main_check(monkeypatch):
         lambda self, args: 7,
     )
 
-    result = rust_main.main(["check", "example.rs"])
+    src = tmp_path / "example.rs"
+    src.write_text("fn main() {}\n")
+    result = rust_main.main(["check", str(src)])
 
     assert result == 7
 
 
-def test_rustwiz_main_build(monkeypatch):
+def test_rustwiz_main_build(monkeypatch, tmp_path):
     """Cover the CLI build command."""
     monkeypatch.setattr(
         rust_main.RustWizard,
@@ -168,7 +170,10 @@ def test_rustwiz_main_build(monkeypatch):
         lambda self, crate_dir: 8,
     )
 
-    result = rust_main.main(["build", "my-crate"])
+    crate = tmp_path / "my-crate"
+    crate.mkdir()
+    (crate / "Cargo.toml").write_text("[package]\nname = \"x\"\n")
+    result = rust_main.main(["build", str(crate)])
 
     assert result == 8
 

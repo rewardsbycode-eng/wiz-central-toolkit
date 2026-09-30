@@ -31,6 +31,7 @@ Repository = "https://github.com/rewardsbycode-eng/wiz-central-toolkit"
 where = ["src"]
 
 [tool.pytest.ini_options]
+timeout = 30
 testpaths = ["tests"]
 pythonpath = ["src"]
 
