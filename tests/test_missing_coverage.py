@@ -7,7 +7,7 @@ from wiz_central_toolkit.godfatherwiz import ai as godfather_ai
 
 def test_godfatherwiz_main_execution_with_mocked_ai(monkeypatch, capsys):
     """Test godfatherwiz CLI execution with dynamic patching based on available module attributes."""
-    monkeypatch.setattr(sys, "argv", ["godfatherwiz", "give me advice"])
+    monkeypatch.setattr(sys, "argv", ["godfatherwiz"])
 
     # Provide mock stdin inputs to satisfy input() calls and cleanly terminate the REPL loop
     input_responses = iter(["give me advice", "/quit"])
