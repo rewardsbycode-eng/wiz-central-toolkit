@@ -1,38 +1,37 @@
+"""Tests for the diffwiz command-line interface."""
+
 import sys
-from pathlib import Path
 from unittest.mock import patch
-import pytest
 
-# Ensure repository root / src is on path for pytest discovery
-REPO_ROOT = Path(__file__).resolve().parent.parent
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
-
-# Adjust fallback if modules are located inside a subpackage (e.g., src.diffwiz or wizard_central.diffwiz)
-try:
-    from diffwiz.cli import main
-except ModuleNotFoundError:
-    try:
-        from wizard_central.diffwiz.cli import main
-    except ModuleNotFoundError:
-        from src.diffwiz.cli import main
+from wiz_central_toolkit.diffwiz.cli import main
 
 
 def test_diffwiz_cli_help(capsys):
-    """Test that diffwiz CLI prints help output when requested."""
+    """Help should print usage information and return success."""
     with patch.object(sys, "argv", ["diffwiz", "--help"]):
-        with pytest.raises(SystemExit) as exc_info:
-            main()
-        assert exc_info.value.code == 0
+        result = main()
 
     captured = capsys.readouterr()
-    assert "usage:" in captured.out.lower() or "help" in captured.out.lower()
+    assert result == 0
+    assert "usage:" in captured.out.lower()
+    assert "diffwiz" in captured.out.lower()
 
 
 def test_diffwiz_cli_no_args(capsys):
-    """Test behavior when no arguments are passed."""
+    """No arguments should show help and return success."""
     with patch.object(sys, "argv", ["diffwiz"]):
-        try:
-            main()
-        except SystemExit as e:
-            assert e.code in (0, 2)
+        result = main()
+
+    captured = capsys.readouterr()
+    assert result == 0
+    assert "usage:" in captured.out.lower()
+
+
+def test_diffwiz_cli_unknown_command(capsys):
+    """Unknown commands should report out of scope and return code 2."""
+    with patch.object(sys, "argv", ["diffwiz", "unknown-command"]):
+        result = main()
+
+    captured = capsys.readouterr()
+    assert result == 2
+    assert "out of scope" in captured.out.lower()

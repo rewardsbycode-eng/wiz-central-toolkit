@@ -7,12 +7,10 @@ from wiz_central_toolkit.debugwiz import debug_wizard
 
 
 @pytest.fixture(autouse=True)
-def isolate_bank(tmp_path, monkeypatch):
-    """Redirect BANK and IGNORE_LIST to a tmp dir for every test in this file."""
+def isolate_debug_wizard_bank(tmp_path, monkeypatch):
     bank = tmp_path / ".debug-wizard"
     monkeypatch.setattr(debug_wizard, "BANK", bank)
     monkeypatch.setattr(debug_wizard, "IGNORE_LIST", bank / "ignored.json")
-    return bank
 
 
 def _write(tmp_path, name, content):
@@ -275,3 +273,66 @@ class TestCLI:
         """stats_fleet checks hardcoded paths (~/tools etc.) — should degrade gracefully."""
         rc = debugwiz_main.main(["stats"])
         assert rc == 0
+
+
+class TestAnalysisCommands:
+    def test_imports_finds_undefined_name(self, tmp_path, capsys):
+        f = _write(tmp_path, "missing.py", "print(missing_name)")
+        rc = debugwiz_main.main(["imports", str(f)])
+        out = capsys.readouterr().out
+        assert rc == 1
+        assert "missing_name" in out
+
+    def test_names_reports_no_undefined_names(self, tmp_path, capsys):
+        f = _write(tmp_path, "good.py", "print('hello')")
+        rc = debugwiz_main.main(["names", str(f)])
+        out = capsys.readouterr().out
+        assert rc == 0
+        assert "no undefined names" in out
+
+    def test_signatures_finds_argument_mismatch(self, tmp_path, capsys):
+        f = _write(
+            tmp_path,
+            "mismatch.py",
+            "def greet(name):\n    return name\ngreet()\n",
+        )
+        rc = debugwiz_main.main(["signatures", str(f)])
+        out = capsys.readouterr().out
+        assert rc == 1
+        assert "greet def=1 args, call=0" in out
+
+
+def test_walk_does_not_prefix_match_ignored_paths(tmp_path):
+    ignored = tmp_path / "foo"
+    sibling = tmp_path / "foobar"
+    ignored.mkdir()
+    sibling.mkdir()
+    _write(ignored, "hidden.py", "print('hidden')")
+    visible = _write(sibling, "visible.py", "print('visible')")
+
+    assert debug_wizard.add_ignore(str(ignored))["ok"] is True
+    files = list(debug_wizard._walk_py_files(tmp_path))
+    assert files == [visible]
+
+
+def test_names_handles_imports_args_and_exception_names(tmp_path):
+    f = _write(
+        tmp_path,
+        "bound_names.py",
+        "import os.path\n"
+        "from pathlib import Path as P\n"
+        "def read(item):\n"
+        "    try:\n"
+        "        return P(item), os.path\n"
+        "    except Exception as err:\n"
+        "        return err\n",
+    )
+
+    assert debug_wizard.names(f) == []
+
+
+def test_load_ignored_recovers_from_invalid_json():
+    debug_wizard.BANK.mkdir(parents=True, exist_ok=True)
+    debug_wizard.IGNORE_LIST.write_text("{not valid json")
+
+    assert debug_wizard.load_ignored() == []

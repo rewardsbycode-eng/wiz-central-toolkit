@@ -13,8 +13,8 @@ def _read_source(arg: str):
         return None
     return p.read_text()
 
-def main() -> int:
-    args = sys.argv[1:]
+def main(argv=None) -> int:
+    args = sys.argv[1:] if argv is None else list(argv)
     if not args or args[0] in ("-h", "--help"):
         print("jsonwiz - standalone JSON doctor")
         print("usage: jsonwiz <command> [args]")

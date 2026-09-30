@@ -1,7 +1,7 @@
 """Tests for todowiz — ported from wizard_central's todo-wizard. Uses an isolated bank dir."""
 import pytest
 
-from wiz_central_toolkit.todowiz.todo_wizard import TodoWizard
+from wiz_central_toolkit.todowiz.lib.todo_wizard import TodoWizard
 
 
 @pytest.fixture

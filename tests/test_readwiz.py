@@ -1,4 +1,4 @@
-from wiz_central_toolkit.readwiz.read_wizard import _first_verb, check_command
+from wiz_central_toolkit.readwiz.lib.read_wizard import _first_verb, check_command
 
 
 def test_readwiz_first_verb():

@@ -1,7 +1,7 @@
 """todo-wizard CLI front-end."""
 import sys
 import json
-from .todo_wizard import TodoWizard
+from .lib.todo_wizard import TodoWizard
 
 def main() -> int:
     args = sys.argv[1:]

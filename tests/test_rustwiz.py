@@ -1,4 +1,4 @@
-from wiz_central_toolkit.rustwiz.rust_wizard import RustWizard
+from wiz_central_toolkit.rustwiz.lib.rust_wizard import RustWizard
 
 
 def test_rustwiz_check_nonexistent():

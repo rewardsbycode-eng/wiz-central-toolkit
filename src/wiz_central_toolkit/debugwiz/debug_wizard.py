@@ -53,13 +53,16 @@ def _walk_py_files(root: Path):
     root = Path(root)
     if not root.exists():
         return
-    if root.is_file() and str(root).endswith(".py"):
+    if root.is_file() and root.suffix == ".py":
         yield root
         return
+
+    ignored = [Path(p) for p in load_ignored()]
     for p in sorted(root.rglob("*.py")):
         if any(part in {".venv", ".git", "__pycache__"} for part in p.parts):
             continue
-        if any(str(p).startswith(ip) for ip in load_ignored()):
+        resolved = p.resolve()
+        if any(resolved == item or item in resolved.parents for item in ignored):
             continue
         yield p
 
