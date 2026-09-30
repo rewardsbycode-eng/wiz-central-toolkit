@@ -16,6 +16,17 @@ from .codeguard_wizard import (
 )
 
 
+def _line_in_range(line, lr):
+    """True if `line` falls inside a range like '10-12' or '5' (not a substring match)."""
+    import re
+    m = re.fullmatch(r"\s*(\d+)\s*(?:[-:]\s*(\d+))?\s*", str(lr))
+    if not m:
+        return False
+    lo = int(m.group(1))
+    hi = int(m.group(2) or lo)
+    return lo <= line <= hi
+
+
 def main():
     p = argparse.ArgumentParser(prog="codeguardwiz")
     sub = p.add_subparsers(dest="cmd")
@@ -116,6 +127,7 @@ def main():
         total = 0
         critical = 0
         high = 0
+        failed = 0
         for f in d.rglob("*.py"):
             if "__pycache__" in str(f) or ".venv" in str(f):
                 continue
@@ -130,17 +142,21 @@ def main():
                     })
                     critical += crit
                     high += h
+            else:
+                failed += 1
             total += 1
         if args.json:
-            print(json.dumps({"files_scanned": total, "findings": results}, indent=2))
+            print(json.dumps({"files_scanned": total, "failed": failed, "findings": results}, indent=2))
         else:
             print(f"[OK] scanned {total} files")
+            if failed:
+                print(f"[FAIL] {failed} file(s) could not be audited (daemon down or bad reply)")
             print(f"     CRITICAL={critical} HIGH={high}")
             if results:
                 print("     findings:")
                 for r in results[:10]:
                     print(f"       {r['file']}: C={r['crit']} H={r['high']}")
-        return 1 if critical or high else 0
+        return 1 if critical or high or failed else 0
 
     if args.cmd == "watch":
         path = args.file
@@ -159,16 +175,19 @@ def main():
             print(f"[FAIL] not a file: {path}")
             return 1
         result = audit(path)
+        if result["status"] != "OK":
+            print(f"[FAIL] {result.get('reason', 'audit failed')}")
+            return 1
         threshold = args.threshold
         counts = result.get("issues_count", {})
-        firing = counts.get(threshold, 0)
-        higher = counts.get("CRITICAL", 0) if threshold != "CRITICAL" else 0
-        total_above = firing + higher if threshold != "CRITICAL" else firing
+        levels = ["CRITICAL", "HIGH", "MEDIUM"]
+        levels = levels[: levels.index(threshold) + 1]
+        total_above = sum(counts.get(lv, 0) for lv in levels)
         print(f"[OK] {threshold}+ severity: {total_above} findings")
         if total_above > 0:
             for iss in result.get("audit", {}).get("issues", []):
                 sev = iss.get("severity", "")
-                if sev == threshold or (threshold == "CRITICAL" and sev == "CRITICAL"):
+                if sev in levels:
                     print(f"     [{sev}] {iss.get('title')} (line {iss.get('line_range')})")
         return 1 if total_above > 0 else 0
 
@@ -182,7 +201,7 @@ def main():
         result = audit(path)
         for iss in result.get("audit", {}).get("issues", []):
             lr = iss.get("line_range", "")
-            if isinstance(lr, str) and str(line) in lr:
+            if _line_in_range(line, lr):
                 print(f"[OK] Rule at line {line}:")
                 print(f"     Severity: {iss.get('severity', '?')}")
                 print(f"     Title: {iss.get('title', '?')}")
@@ -261,7 +280,8 @@ def main():
             with tempfile.NamedTemporaryFile("w", suffix=".py",
                                             delete=False) as tmp:
                 tmp.write(result["fixed_code"])
-            gate = subprocess.run(["pythonwiz", "check", tmp.name],
+            gate = subprocess.run([sys.executable, "-m", "wiz_central_toolkit.pythonwiz",
+                                    "check", tmp.name],
                                    capture_output=True, text=True)
             os.unlink(tmp.name)
             if gate.returncode != 0:
