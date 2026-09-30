@@ -301,7 +301,9 @@ def _ollama_chat_api(messages, model):
     req = urllib.request.Request(
         "http://127.0.0.1:11434/api/chat",
         data=payload, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=600) as r:
+    import os as _os
+    _timeout = int(_os.environ.get("WIZ_OLLAMA_TIMEOUT", "600"))
+    with urllib.request.urlopen(req, timeout=_timeout) as r:
         data = _j.loads(r.read().decode())
     return data.get("message", {}).get("content", "")
 
@@ -314,6 +316,9 @@ def build_tool_manifest():
 def oracle_tool_loop(question, model, memory, max_rounds=5):
     """Chat with hands: tool calls execute REAL wizards, results feed back in.
     Returns (final_reply, memory). Memory is this session's conversation."""
+    import os as _os
+    if _os.environ.get("WIZ_AI_PROVIDER", "").strip().lower() == "none":
+        return ("[FAIL] AI disabled (WIZ_AI_PROVIDER=none)", memory)
     if not memory:
         memory.append({"role": "system",
                        "content": ORACLE_SPINE + "\nAVAILABLE TOOLS:\n" + build_tool_manifest()})

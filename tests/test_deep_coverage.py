@@ -224,14 +224,24 @@ def test_bannerwiz_cli_sizes(capsys):
 
 def test_godfatherwiz_repl_commands(capsys, monkeypatch):
     monkeypatch.setenv("WIZ_AI_PROVIDER", "none")
-    inputs = iter(["help", "tools", "version", "clear", "exit"])
+    inputs = iter(["/help", "/more-commands", "/bogus", "/quit"])
     monkeypatch.setattr("builtins.input", lambda prompt="": next(inputs))
 
     with patch("sys.argv", ["godfatherwiz"]):
         try:
             godfatherwiz_cli.main()
-        except (SystemExit, StopIteration):
+        except SystemExit:
             pass
 
-    captured = capsys.readouterr()
-    assert len(captured.out) >= 0
+    out = capsys.readouterr().out
+    assert "/help" in out
+    assert "unknown slash command: /bogus" in out
+
+
+def test_oracle_tool_loop_respects_provider_none(monkeypatch):
+    from wiz_central_toolkit.godfatherwiz.lib.godfather_wizard import oracle_tool_loop
+
+    monkeypatch.setenv("WIZ_AI_PROVIDER", "none")
+    reply, memory = oracle_tool_loop("hi", "any-model", [])
+    assert "AI disabled" in reply
+    assert memory == []
