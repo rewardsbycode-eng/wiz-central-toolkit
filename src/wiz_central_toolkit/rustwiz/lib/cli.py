@@ -1,6 +1,9 @@
 import sys
-sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[1]))
-from lib.rust_wizard import RustWizard
+try:
+    from .rust_wizard import RustWizard
+except ImportError:  # run directly as a script, outside the package
+    sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parent))
+    from rust_wizard import RustWizard
 
 
 def main(argv=None):
