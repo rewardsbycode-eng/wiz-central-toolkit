@@ -15,6 +15,8 @@ class PythonWizard:
         try:
             ast.parse(path.read_text())
             return {"file": str(path), "valid": True}
+        except FileNotFoundError:
+            return {"file": str(path), "valid": False, "error": "file not found"}
         except SyntaxError as e:
             return {"file": str(path), "valid": False, "line": e.lineno,
                     "col": e.offset, "error": e.msg}
