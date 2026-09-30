@@ -43,3 +43,16 @@ exclude_lines = [
     "pragma: no cover",
     "if __name__ == .__main__.:",
 ]
+
+[project.entry-points."wiz_central_toolkit"]
+bannerwiz = "wiz_central_toolkit.bannerwiz.__main__:main"
+codeguardwiz = "wiz_central_toolkit.codeguardwiz.__main__:main"
+diffwiz = "wiz_central_toolkit.diffwiz.__main__:main"
+godfatherwiz = "wiz_central_toolkit.godfatherwiz.__main__:main"
+jsonwiz = "wiz_central_toolkit.jsonwiz.__main__:main"
+pythonwiz = "wiz_central_toolkit.pythonwiz.__main__:main"
+readwiz = "wiz_central_toolkit.readwiz.__main__:main"
+rustwiz = "wiz_central_toolkit.rustwiz.__main__:main"
+tmuxwiz = "wiz_central_toolkit.tmuxwiz.__main__:main"
+todowiz = "wiz_central_toolkit.todowiz.__main__:main"
+writewiz = "wiz_central_toolkit.writewiz.__main__:main"

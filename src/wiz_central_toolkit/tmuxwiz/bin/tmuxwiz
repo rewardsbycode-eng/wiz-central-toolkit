@@ -1,0 +1,10 @@
+#!/home/rewardsbycode/wiz-central-toolkit/fixy-env/bin/python3
+import os
+import sys
+
+LIB = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "lib")
+sys.path.insert(0, LIB)
+from tmux_wizard import main
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

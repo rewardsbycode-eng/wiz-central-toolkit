@@ -1,8 +1,7 @@
 """python-wizard CLI front-end."""
-import json
 import sys
+import json
 from pathlib import Path
-
 from .python_wizard import PythonWizard
 
 HELP = """pythonwiz - standalone Python doctor (parse only, never executes)

@@ -1,9 +1,7 @@
 """diff-wizard CLI front-end."""
 import sys
 from pathlib import Path
-
 from .diff_wizard import DiffWizard
-
 
 def main() -> int:
     args = sys.argv[1:]

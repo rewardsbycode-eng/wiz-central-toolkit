@@ -1,12 +1,17 @@
-"""tmuxwiz — sovereign tmux session manager."""
+"""Entry point for tmuxwiz dispatch."""
 import sys
+from .lib import cli as internal_cli
 
-from .tmux_wizard import main as _main
-
-
-def main(argv=None) -> int:
-    return _main(sys.argv[1:] if argv is None else list(argv))
-
+def main(argv=None):
+    old_argv = sys.argv
+    if argv is None:
+        sys.argv = [sys.argv[0]]
+    else:
+        sys.argv = [sys.argv[0]] + list(argv)
+    try:
+        return internal_cli.main()
+    finally:
+        sys.argv = old_argv
 
 if __name__ == "__main__":
     sys.exit(main())
