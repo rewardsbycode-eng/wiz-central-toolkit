@@ -25,6 +25,10 @@ def render_sovereign(words, subtitle=None):
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] in ("-h", "--help"):
+        print("bannerwiz - ASCII banner wizard")
+        print("usage: bannerwiz <words...> [--subtitle TEXT] | --demo | --themes | --styles | --interactive")
+        return 0
     if not argv:
         print("bannerwiz - ASCII banner wizard")
         print("usage: bannerwiz <words...> [--subtitle TEXT] | --demo | --themes | --styles | --interactive")
@@ -32,7 +36,7 @@ def main(argv=None):
     if argv[0] in ("--demo", "--themes", "--styles", "--sizes", "--interactive", "--fonts"):
         import runpy
         import os
-        eng = Path(__file__).resolve().parent / "banner_wizard.py"
+        eng = Path(__file__).resolve().parent / "lib" / "banner_wizard.py"
         os.environ["_BANNERWIZ_SUBCMD"] = argv[0]
         # delegate to the engine's mature surface
         sys.argv = [str(eng)] + argv
