@@ -245,3 +245,12 @@ def test_oracle_tool_loop_respects_provider_none(monkeypatch):
     reply, memory = oracle_tool_loop("hi", "any-model", [])
     assert "AI disabled" in reply
     assert memory == []
+
+
+def test_oracle_spine_has_no_hardcoded_home():
+    import os
+    from wiz_central_toolkit.godfatherwiz.lib.godfather_wizard import ORACLE_SPINE
+
+    assert "victor" + "sudosudo" not in ORACLE_SPINE
+    assert "__HOME__" not in ORACLE_SPINE
+    assert os.path.expanduser("~") in ORACLE_SPINE

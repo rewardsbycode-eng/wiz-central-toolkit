@@ -284,10 +284,13 @@ LAWS:
 
 WORKED EXAMPLE — if the user asks "what files are in ~/wizard_central?",
 your ENTIRE reply must be exactly this one line:
-TOOL: truthwiz listing /home/victorsudosudo/wizard_central
+TOOL: truthwiz listing __HOME__/wizard_central
 
 Then stop. The true result will be given to you, and you summarize it.
 """
+
+import os as _os_home
+ORACLE_SPINE = ORACLE_SPINE.replace("__HOME__", _os_home.path.expanduser("~"))
 
 CONSENT_PREFIXES = ("writewiz", "repairwiz heal", "repairwiz commit")
 
