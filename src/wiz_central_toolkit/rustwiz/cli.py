@@ -1,26 +1,4 @@
-import sys
-sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[1]))
-from .lib.rust_wizard import RustWizard
+"""rustwiz CLI entry point; the implementation lives in lib/cli.py."""
+from .lib.cli import main
 
-
-def main(argv=None):
-    argv = list(sys.argv[1:] if argv is None else argv)
-    if argv and argv[0] in ("-h", "--help"):
-        print("rustwiz - Rust project checker")
-        print("usage: rustwiz check <file.rs|dir> ... | build <crate-dir>")
-        return 0
-    if not argv:
-        print("out of scope - usage: rustwiz check <file.rs|dir> ... | build <crate-dir>")
-        return 2
-    cmd, args = argv[0], argv[1:]
-    wz = RustWizard()
-    if cmd == "check" and args:
-        return wz.check(args)
-    if cmd == "build" and args:
-        return wz.build(args[0])
-    print(f"out of scope - unknown or incomplete command: {' '.join(argv)}")
-    return 2
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+__all__ = ["main"]
