@@ -286,3 +286,13 @@ def test_scan_json_output(monkeypatch, capsys, tmp_path):
     assert _run(monkeypatch, "scan", str(tmp_path), "--json") == 0
     data = json.loads(capsys.readouterr().out)
     assert data == {"files_scanned": 1, "failed": 0, "findings": []}
+
+
+def test_python_gate_really_rejects_broken_code(monkeypatch, capsys, tmp_path):
+    """No subprocess mock: the real pythonwiz gate must reject a syntax error."""
+    monkeypatch.setattr(cgcli, "fix", lambda p: {
+        "status": "OK", "issues_fixed": 1, "fix_model": "m",
+        "fixed_code": "def broken(:\n"})
+    p = _file(tmp_path, "a.py", "OLD\n")
+    assert _run(monkeypatch, "fix", str(p), "--write") == 1
+    assert p.read_text() == "OLD\n"

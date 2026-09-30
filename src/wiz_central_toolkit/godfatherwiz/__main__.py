@@ -4,9 +4,7 @@ from .lib import cli as internal_cli
 
 def main(argv=None):
     old_argv = sys.argv
-    if argv is None:
-        sys.argv = [sys.argv[0]]
-    else:
+    if argv is not None:
         sys.argv = [sys.argv[0]] + list(argv)
     try:
         return internal_cli.main()
