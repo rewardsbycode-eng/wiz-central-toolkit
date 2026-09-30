@@ -2,10 +2,7 @@
 import sys
 from pathlib import Path
 
-# Add parent directory to path so we can import lib
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from lib.cli import _classify_repl_input
+from wiz_central_toolkit.godfatherwiz.lib.cli import _classify_repl_input
 
 def test_empty_input():
     assert _classify_repl_input("") == ("empty", [])
