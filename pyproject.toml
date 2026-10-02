@@ -4,13 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "wiz-central-toolkit"
-version = "0.1.0"
-description = "Wizard Central Toolkit — focused, reliable command-line tools for developers"
+version = "0.2.0"
+description = "Sovereign Developer Utilities Fleet & AI Router"
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
 authors = [{ name = "rewardsbycode-eng" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+]
 dependencies = [
     "pyfiglet>=1.0.0",
     "rich>=13.0.0",
@@ -22,6 +26,17 @@ dev = ["pytest>=7.0", "pytest-cov>=4.0", "pytest-timeout>=2.1", "mypy>=1.10"]
 [project.scripts]
 wiz = "wiz_central_toolkit.wiz.__main__:main"
 godfatherwiz = "wiz_central_toolkit.godfatherwiz.__main__:main"
+bannerwiz = "wiz_central_toolkit.bannerwiz.__main__:main"
+codeguardwiz = "wiz_central_toolkit.codeguardwiz.__main__:main"
+debugwiz = "wiz_central_toolkit.debugwiz.__main__:main"
+diffwiz = "wiz_central_toolkit.diffwiz.__main__:main"
+jsonwiz = "wiz_central_toolkit.jsonwiz.__main__:main"
+pythonwiz = "wiz_central_toolkit.pythonwiz.__main__:main"
+readwiz = "wiz_central_toolkit.readwiz.__main__:main"
+rustwiz = "wiz_central_toolkit.rustwiz.__main__:main"
+tmuxwiz = "wiz_central_toolkit.tmuxwiz.__main__:main"
+todowiz = "wiz_central_toolkit.todowiz.__main__:main"
+writewiz = "wiz_central_toolkit.writewiz.__main__:main"
 
 [project.urls]
 Homepage = "https://github.com/rewardsbycode-eng/wiz-central-toolkit"
